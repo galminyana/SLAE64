@@ -166,31 +166,3 @@ execve_syscall:
 	
 exit_program:
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
