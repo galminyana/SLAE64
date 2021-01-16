@@ -1,9 +1,12 @@
 ; Author: Guillem Alminyana
-; 
+; Student ID: PA-14628
+; SLAE64 Assignment #1: Shell_Bind_TCP
+; =====================================
 ;
-;
-;
-; 
+; Compile: 
+;   nasm -f elf64 BindShell-Execve-Stack.nasm -o BindShell-Execve-Stack.o 
+; Link: Use the -N option, to  access memory positions in the .text 
+;       section instead of .data 
 
 
 %define AF_INET 2
