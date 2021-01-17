@@ -5,8 +5,6 @@
 ;
 ; Compile: 
 ;   nasm -f elf64 BindShell-Execve-Stack.nasm -o BindShell-Execve-Stack.o 
-; Link: Use the -N option, to  access memory positions in the .text 
-;       section instead of .data 
 
 
 %define AF_INET 2
@@ -15,11 +13,8 @@
 
 %define PORT 0x5c11				; Port 444 (htons(4444))
 
-
 global _start
-
 section .text
-
 
 _start:
 

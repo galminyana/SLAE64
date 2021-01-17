@@ -1,3 +1,11 @@
+; Author: Guillem Alminyana
+; Student ID: PA-14628
+; SLAE64 Assignment #1: Shell_Bind_TCP
+; =====================================
+;
+; Compile: 
+;   nasm -f elf64 BindShell-Execve-Stack.nasm -o BindShell-Execve-Stack.o 
+
 global _start
 
 %define AF_INET 2

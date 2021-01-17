@@ -1,3 +1,14 @@
+; Author: Guillem Alminyana
+; Student ID: PA-14628
+; SLAE64 Assignment #2
+; =====================================
+;
+; Compile: 
+;   nasm -f elf64 BindShell-Execve-Stack.nasm -o BindShell-Execve-Stack.o 
+; Link: Use the -N option, to  access memory positions in the .text 
+;       section instead of .data 
+
+
 global _start
 
 %define AF_INET 2

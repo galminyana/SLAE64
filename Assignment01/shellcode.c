@@ -1,3 +1,13 @@
+/*
+ Author: Guillem Alminyana
+ Student ID: PA-14628
+ SLAE64 Assignment #1
+ =====================================
+
+ Compile: 
+   gcc -fno-stack-protector -z execstack shellcode.c -o shellcode
+*/
+
 #include <stdio.h>
 #include <string.h>
 
