@@ -1,16 +1,21 @@
+/*
+ Author: Guillem Alminyana
+ Student ID: PA-14628
+ SLAE64 Assignment #4
+ =====================================
+
+ Compile: 
+   gcc Encoder.c -o Encoder
+*/
+
 #include <stdio.h>
 #include <string.h>
 
 #define BITS_TO_ROTATE	8
 #define SHIFTS 		3
 
-
-
-
 unsigned char code[]= \
 "\x48\x31\xc0\x50\x48\xbb\x2f\x62\x69\x6e\x2f\x2f\x73\x68\x53\x48\x89\xe7\x50\x48\x89\xe2\x57\x48\x89\xe6\x48\x83\xc0\x3b\x0f\x05";
-
-
 
 void main (void)
 {
