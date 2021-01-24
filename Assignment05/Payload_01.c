@@ -2,7 +2,7 @@
   This is the msfvnom shellcode for the payload linux/x64/exec
 
   Generated with command:
-        msfvenom -p linux/x64/exec CMD="cat /etc/passwd" -f c
+        msfvenom -p linux/x64/exec CMD="/bin/ls -l" -f c
 */
 
 /*
