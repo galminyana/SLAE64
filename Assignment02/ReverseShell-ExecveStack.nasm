@@ -1,7 +1,7 @@
 ; Author: Guillem Alminyana
 ; Student ID: PA-14628
-; SLAE64 Assignment #2
-; =====================================
+; SLAE64 Assignment #2: Reverse_TCP_Shell
+; =======================================
 ;
 ; Compile: 
 ;   nasm -f elf64 BindShell-Execve-Stack.nasm -o BindShell-Execve-Stack.o 
