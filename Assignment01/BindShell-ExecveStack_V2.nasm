@@ -3,10 +3,13 @@
 ; SLAE64 Assignment #1: Shell_Bind_TCP
 ; =====================================
 ;
+; This is the optimized version without NULLs
+;
 ; Compile: 
 ;   nasm -f elf64 BindShell-Execve-Stack.nasm -o BindShell-Execve-Stack.o 
+;
 
-%%define AF_INET 2
+%define AF_INET 2
 %define SOCK_STREAM 1
 %define INADDR_ANY 0
 %define PORT 0x5c11				; Port 444 (htons(4444))
