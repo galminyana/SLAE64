@@ -1,7 +1,7 @@
 /*
  Author: Guillem Alminyana
  Student ID: PA-14628
- SLAE64 Assignment #2
+ SLAE64 Assignment #3: Egg Hunter
  =====================================
 
 This code is a POC of the Egg Hunter Technique.
@@ -16,7 +16,7 @@ Compile with the following options:
 
 	gcc -fno-stack-protector -z execstack shellcode.c -o shellcode
 
-To force the .text section in higher memory positions, use this compiler option
+To force the .text section in higher memory positions, use this compiler option:
 
 	-Wl,-Ttext-segment,0x40000000
 
