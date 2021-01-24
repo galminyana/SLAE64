@@ -1,7 +1,7 @@
 /*
  Author: Guillem Alminyana
  Student ID: PA-14628
- SLAE64 Assignment #4: Encoder
+ SLAE64 Assignment #4: Custom Encoder
  =====================================
 
  Compile: 
