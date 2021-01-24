@@ -1,7 +1,7 @@
 /*
   Author: Guillem Alminyana
   StudentID:  PA-14628
-  SLAE64 Assignment #3: Crypter
+  SLAE64 Assignment #7: Crypter
   =====================================
 
 This piece of code encrypts a string using TwoFish. 
