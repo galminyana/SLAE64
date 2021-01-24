@@ -113,7 +113,7 @@ void main (void)
 	/* End the mcrypt */
 	mcrypt_generic_end(id_crypt);
 
-	printf("\n\Crypted!\n\n");
+	printf("\nCrypted!\n\n");
 	
 }	
 
