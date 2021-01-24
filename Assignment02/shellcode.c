@@ -1,8 +1,8 @@
 /*
  Author: Guillem Alminyana
  Student ID: PA-14628
- SLAE64 Assignment #2
- =====================================
+ SLAE64 Assignment #2: Reverse_TCP_Shell
+ =======================================
 
  Compile: 
    gcc -fno-stack-protector -z execstack shellcode.c -o shellcode
