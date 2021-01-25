@@ -8,6 +8,13 @@
 ;	- sys_write
 ;	- sys_read
 ;
+; Compile:
+;	nasm -f elf64 file.nasm -o file.o
+;	ld -N file.o -o file
+; Test:
+;	run ./file
+;	connect from another terminal with nc localhost 4444
+;
 
 global _start			
 
