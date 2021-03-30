@@ -1,8 +1,5 @@
-# SLAE64 Assignments
+# SLAE64
 ---
-This repo have been created for completing the requirements of the [**_SecurityTube Linux Assembly Expert Certification_**](http://www.securitytube-training.com/online-courses/x8664-assembly-and-shellcoding-on-linux/).
-
-**Student ID: PA-14628**
 
 ## Posts for the Assignments
 ---
